@@ -34,8 +34,12 @@ public class PaymentTypeController {
         // 设置更新时间 和 逻辑删除标识
         paymentType.setUpdateTime(new Date());
         paymentType.setIsDeleted(Byte.valueOf("0"));
-        boolean flag = paymentTypeService.saveOrUpdate(paymentType);
-        return Result.ok(flag);
+        boolean isSuccess = paymentTypeService.saveOrUpdate(paymentType);
+        if(isSuccess){
+            return Result.ok();
+        }else{
+            return Result.fail();
+        }
     }
 
     @Operation(summary = "根据ID删除支付方式")
@@ -48,8 +52,12 @@ public class PaymentTypeController {
     @Operation(summary = "根据ID删除支付方式-路径传参")
     @DeleteMapping("deleteById/{id}")
     public Result deletePaymentById2(@PathVariable Long id) {
-        boolean flag = paymentTypeService.removeById(id);
-        return Result.ok(flag);
+        boolean remove = paymentTypeService.removeById(id);
+        if(remove){
+            return Result.ok();
+        }else{
+            return Result.fail();
+        }
     }
 
 }

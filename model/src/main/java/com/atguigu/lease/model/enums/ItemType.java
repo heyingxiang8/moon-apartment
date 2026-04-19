@@ -11,8 +11,8 @@ public enum ItemType implements BaseEnum {
     ROOM(2, "房间");
 
 
-    @EnumValue
-    @JsonValue
+    @EnumValue  // Mybatis-plus提供的通用的处理枚举类型的处理器，与数据库交互时，把枚举类对象转换为码值
+    @JsonValue  // Json序列化框架，在返回前端页面数据时，起作用，把枚举类对象转换为码值
     private Integer code;
     private String name;
 
