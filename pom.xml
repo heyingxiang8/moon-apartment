@@ -33,7 +33,7 @@
         <aliyun.sms.version>2.0.23</aliyun.sms.version>
     </properties>
 
-    <!--配置dependencyManagement统一管理依赖版本-->
+    <!--配置dependencyManagement统一管理依赖版本,是一个版本声明清单,它本身不会自动下载依赖-->
     <dependencyManagement>
         <dependencies>
             <!--mybatis-plus-->
