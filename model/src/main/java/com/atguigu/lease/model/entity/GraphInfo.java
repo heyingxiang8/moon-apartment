@@ -9,6 +9,9 @@ import lombok.*;
 @Schema(description = "图片信息表")
 @TableName(value = "graph_info")
 @Data
+@Builder
+//@NoArgsConstructor // 保留无参构造，用于 MyBatis/JSON 反序列化
+//@AllArgsConstructor // 显式添加全参构造，@Builder 默认会基于这个生成代码
 public class GraphInfo extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
@@ -21,7 +24,7 @@ public class GraphInfo extends BaseEntity {
     @TableField(value = "item_type")
     private ItemType itemType;
 
-    @Schema(description = "图片所有对象id")
+    @Schema(description = "图片所属对象id")
     @TableField(value = "item_id")
     private Long itemId;
 

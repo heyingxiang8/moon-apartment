@@ -22,7 +22,7 @@ public class FileUploadController {
 
     @Operation(summary = "上传文件")
     @PostMapping("upload")
-    public Result<String> upload(@RequestParam MultipartFile file) {
+    public Result<String> upload(@RequestParam MultipartFile file) throws Exception{
         String url = fileService.upload(file);
         return Result.ok(url);
     }

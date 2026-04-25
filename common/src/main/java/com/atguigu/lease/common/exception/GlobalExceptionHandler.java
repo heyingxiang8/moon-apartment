@@ -1,0 +1,21 @@
+/**
+ * @author 23275
+ * @version 1.0
+ * @since 2026/4/24
+ */
+package com.atguigu.lease.common.exception;
+
+import com.atguigu.lease.common.result.Result;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+@ControllerAdvice
+public class GlobalExceptionHandler {
+    @ExceptionHandler(Exception.class)
+    @ResponseBody
+    public Result error(Exception e){
+        e.printStackTrace();
+        return Result.fail();
+    }
+}
