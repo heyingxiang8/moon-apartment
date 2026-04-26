@@ -5,10 +5,13 @@ import com.atguigu.lease.model.enums.ItemType;
 import com.atguigu.lease.web.admin.mapper.*;
 import com.atguigu.lease.web.admin.service.*;
 import com.atguigu.lease.web.admin.vo.apartment.ApartmentDetailVo;
+import com.atguigu.lease.web.admin.vo.apartment.ApartmentItemVo;
+import com.atguigu.lease.web.admin.vo.apartment.ApartmentQueryVo;
 import com.atguigu.lease.web.admin.vo.apartment.ApartmentSubmitVo;
 import com.atguigu.lease.web.admin.vo.fee.FeeValueVo;
 import com.atguigu.lease.web.admin.vo.graph.GraphVo;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +46,8 @@ public class ApartmentInfoServiceImpl extends ServiceImpl<ApartmentInfoMapper, A
     private FeeValueMapper feeValueMapper;
     @Autowired
     private GraphInfoMapper graphInfoMapper;
+    @Autowired
+    private ApartmentInfoMapper apartmentInfoMapper;
 
     @Override
     public void saveOrUpdateApartment(ApartmentSubmitVo apartmentSubmitVo) {
@@ -157,6 +162,11 @@ public class ApartmentInfoServiceImpl extends ServiceImpl<ApartmentInfoMapper, A
         apartmentDetailVo.setGraphVoList(graphVoList);
 
         return apartmentDetailVo;
+    }
+
+    @Override
+    public IPage<ApartmentItemVo> pageApartmentItemByQuery(IPage<ApartmentItemVo> page, ApartmentQueryVo queryVo) {
+        return apartmentInfoMapper.pageApartmentItemByQuery(page, queryVo);
     }
 }
 
