@@ -2,13 +2,15 @@ package com.atguigu.lease.web.admin.service.impl;
 
 import com.atguigu.lease.model.entity.*;
 import com.atguigu.lease.model.enums.ItemType;
-import com.atguigu.lease.web.admin.mapper.ApartmentInfoMapper;
+import com.atguigu.lease.web.admin.mapper.*;
 import com.atguigu.lease.web.admin.service.*;
 import com.atguigu.lease.web.admin.vo.apartment.ApartmentDetailVo;
 import com.atguigu.lease.web.admin.vo.apartment.ApartmentSubmitVo;
+import com.atguigu.lease.web.admin.vo.fee.FeeValueVo;
 import com.atguigu.lease.web.admin.vo.graph.GraphVo;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -33,17 +35,25 @@ public class ApartmentInfoServiceImpl extends ServiceImpl<ApartmentInfoMapper, A
     private ApartmentFeeValueService apartmentFeeValueService;
     @Autowired
     private GraphInfoService graphInfoService;
+    @Autowired
+    private FacilityInfoMapper facilityInfoMapper;
+    @Autowired
+    private LabelInfoMapper labelInfoMapper;
+    @Autowired
+    private FeeValueMapper feeValueMapper;
+    @Autowired
+    private GraphInfoMapper graphInfoMapper;
 
     @Override
     public void saveOrUpdateApartment(ApartmentSubmitVo apartmentSubmitVo) {
         boolean isUpdate = apartmentSubmitVo.getId() != null;
         // 如果是更新，则原submitVo就是有id的；如果是插入，则mybatis-plus依旧会返回id并保存到submitVo中
         this.saveOrUpdate(apartmentSubmitVo);
+        // 获取公寓ID
+        Long apartmentId = apartmentSubmitVo.getId();
 
         // 如果是更新情形
         if(isUpdate){
-            // 获取公寓ID
-            Long apartmentId = apartmentSubmitVo.getId();
             // 1. 删除配套列表
             LambdaQueryWrapper<ApartmentFacility> facilityQueryWrapper = new LambdaQueryWrapper<>();
             facilityQueryWrapper.eq(ApartmentFacility::getApartmentId, apartmentId);
@@ -66,8 +76,6 @@ public class ApartmentInfoServiceImpl extends ServiceImpl<ApartmentInfoMapper, A
             graphInfoService.remove(graphInfoQueryWrapper);
         }
 
-        // 获取公寓ID
-        Long apartmentId = apartmentSubmitVo.getId();
         // 1.插入公寓配套列表
         List<Long> facilityInfoIdList = apartmentSubmitVo.getFacilityInfoIds();
         if(!CollectionUtils.isEmpty(facilityInfoIdList)) {
@@ -119,6 +127,36 @@ public class ApartmentInfoServiceImpl extends ServiceImpl<ApartmentInfoMapper, A
             }
             graphInfoService.saveBatch(graphInfoList);
         }
+    }
+
+    @Override
+    public ApartmentDetailVo getApartmentDetailById(Long id) {
+        // 1. 查询ApartmentInfo
+        ApartmentInfo apartmentInfo = this.getById(id);
+        if (apartmentInfo == null) {
+            return null;
+        }
+
+        // 2. 查询FacilityInfo
+        List<FacilityInfo> facilityInfoList = facilityInfoMapper.selectListByApartmentId(id);
+
+        // 3. 查询LabelInfo
+        List<LabelInfo> labelInfoList = labelInfoMapper.selectListByApartmentId(id);
+
+        // 4. 查询FeeValueVo
+        List<FeeValueVo> feeValueVoList = feeValueMapper.selectListByApartmentId(id);
+
+        // 5. 查询GraphVo
+        List<GraphVo> graphVoList = graphInfoMapper.selectListByApartmentId(ItemType.APARTMENT, id);
+
+        ApartmentDetailVo apartmentDetailVo = new ApartmentDetailVo();
+        BeanUtils.copyProperties(apartmentInfo, apartmentDetailVo);
+        apartmentDetailVo.setFacilityInfoList(facilityInfoList);
+        apartmentDetailVo.setLabelInfoList(labelInfoList);
+        apartmentDetailVo.setFeeValueVoList(feeValueVoList);
+        apartmentDetailVo.setGraphVoList(graphVoList);
+
+        return apartmentDetailVo;
     }
 }
 
