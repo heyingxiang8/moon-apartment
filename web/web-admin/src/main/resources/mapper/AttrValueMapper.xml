@@ -3,5 +3,21 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.atguigu.lease.web.admin.mapper.AttrValueMapper">
-
+    <select id="selectListByRoomId" resultType="com.atguigu.lease.web.admin.vo.attr.AttrValueVo">
+        select ar.id,
+               ar.name,
+               ar.attr_key_id,
+               ak.name  attr_key_name
+        from (select id,
+                     name,
+                     attr_key_id
+              from attr_value
+              where id in (select attr_value_id
+                           from room_attr_value
+                           where is_deleted = 0
+                             and room_id = #{id})) ar
+                 left join attr_key ak
+                           on ar.attr_key_id = ak.id
+                               and ak.is_deleted = 0
+    </select>
 </mapper>
