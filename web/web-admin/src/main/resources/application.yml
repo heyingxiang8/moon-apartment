@@ -19,6 +19,8 @@ spring:
     multipart:
       max-file-size: 100MB
       max-request-size: 150MB
+  jackson:
+    time-zone: GMT+8
 springdoc:
   default-flat-param-object: true
 
