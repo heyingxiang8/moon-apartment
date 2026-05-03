@@ -7,8 +7,11 @@ import com.atguigu.lease.web.admin.service.*;
 import com.atguigu.lease.web.admin.vo.attr.AttrValueVo;
 import com.atguigu.lease.web.admin.vo.graph.GraphVo;
 import com.atguigu.lease.web.admin.vo.room.RoomDetailVo;
+import com.atguigu.lease.web.admin.vo.room.RoomItemVo;
+import com.atguigu.lease.web.admin.vo.room.RoomQueryVo;
 import com.atguigu.lease.web.admin.vo.room.RoomSubmitVo;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -244,6 +247,11 @@ public class RoomInfoServiceImpl extends ServiceImpl<RoomInfoMapper, RoomInfo>
         graphQueryWrapper.eq(GraphInfo::getItemType, ItemType.ROOM);
         graphQueryWrapper.eq(GraphInfo::getItemId, id);
         graphInfoService.remove(graphQueryWrapper);
+    }
+
+    @Override
+    public IPage<RoomItemVo> pageRoomItemByQuery(IPage<RoomItemVo> page, RoomQueryVo queryVo) {
+        return roomInfoMapper.pageRoomItemByQuery(page, queryVo);
     }
 }
 
