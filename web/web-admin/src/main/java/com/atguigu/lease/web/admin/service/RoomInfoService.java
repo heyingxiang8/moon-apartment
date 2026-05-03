@@ -18,4 +18,6 @@ public interface RoomInfoService extends IService<RoomInfo> {
     void saveOrUpdateRoom(RoomSubmitVo roomSubmitVo);
 
     RoomDetailVo getRoomDetailById(Long id);
+
+    void removeRoomById(Long id);
 }
