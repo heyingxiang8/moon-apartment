@@ -21,6 +21,11 @@ spring:
       max-request-size: 150MB
   jackson:
     time-zone: GMT+8
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      database: 0
 springdoc:
   default-flat-param-object: true
 
@@ -35,3 +40,9 @@ minio:
   access-key: minioadmin
   secret-key: minioadmin
   bucket-name: shangtingapartment
+
+admin:
+  auth:
+    path-patterns:
+      include: /admin/**
+      exclude: /admin/login/**
