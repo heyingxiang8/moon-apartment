@@ -13,10 +13,13 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "登录管理")
 @RequestMapping("/app/")
 public class LoginController {
+    @Autowired
+    private LoginService service;
 
     @GetMapping("login/getCode")
     @Operation(summary = "获取短信验证码")
     public Result getCode(@RequestParam String phone) {
+        service.getSMSCode(phone);
         return Result.ok();
     }
 
