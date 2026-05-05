@@ -27,3 +27,9 @@ minio:
   access-key: minioadmin
   secret-key: minioadmin
   bucket-name: shangtingapartment
+
+app:
+  auth:
+    path-patterns:
+      include: /app/**
+      exclude: /app/login/**

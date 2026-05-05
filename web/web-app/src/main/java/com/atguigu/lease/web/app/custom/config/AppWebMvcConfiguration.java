@@ -1,27 +1,27 @@
 /**
  * @author 23275
  * @version 1.0
- * @since 2026/5/4
+ * @since 2026/5/5
  */
-package com.atguigu.lease.config;
+package com.atguigu.lease.web.app.custom.config;
 
-import com.atguigu.lease.web.admin.interceptor.AuthenticationInterceptor;
+import com.atguigu.lease.web.app.custom.interceptor.AuthenticationInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-@Configuration
-public class AdminWebMvcConfiguration implements WebMvcConfigurer {
-    @Autowired
-    private AuthenticationInterceptor authenticationInterceptor;
-
-    @Value("${admin.auth.path-patterns.include}")
+@Component
+public class AppWebMvcConfiguration implements WebMvcConfigurer {
+    @Value("${app.auth.path-patterns.include}")
     private String[] includePathPatterns;
 
-    @Value("${admin.auth.path-patterns.exclude}")
+    @Value("${app.auth.path-patterns.exclude}")
     private String[] excludePathPatterns;
+
+    @Autowired
+    private AuthenticationInterceptor authenticationInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {

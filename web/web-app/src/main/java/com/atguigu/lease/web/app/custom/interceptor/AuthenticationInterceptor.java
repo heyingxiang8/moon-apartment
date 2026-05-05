@@ -3,7 +3,7 @@
  * @version 1.0
  * @since 2026/5/4
  */
-package com.atguigu.lease.web.admin.interceptor;
+package com.atguigu.lease.web.app.custom.interceptor;
 
 import com.atguigu.lease.common.context.LoginUser;
 import com.atguigu.lease.common.context.LoginUserContext;
@@ -20,11 +20,11 @@ import org.springframework.web.servlet.HandlerInterceptor;
 public class AuthenticationInterceptor implements HandlerInterceptor {
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         String token = request.getHeader("access_token");
 
         if (token == null) {
-            throw new LeaseException(ResultCodeEnum.ADMIN_LOGIN_AUTH);
+            throw new LeaseException(ResultCodeEnum.APP_LOGIN_AUTH);
         } else {
             Claims claims = JwtUtil.parseToken(token);
             Long userId = claims.get("userId", Long.class);
