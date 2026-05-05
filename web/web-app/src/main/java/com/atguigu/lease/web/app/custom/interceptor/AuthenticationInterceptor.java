@@ -21,7 +21,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        String token = request.getHeader("access_token");
+        String token = request.getHeader("access-token");
 
         if (token == null) {
             throw new LeaseException(ResultCodeEnum.APP_LOGIN_AUTH);
