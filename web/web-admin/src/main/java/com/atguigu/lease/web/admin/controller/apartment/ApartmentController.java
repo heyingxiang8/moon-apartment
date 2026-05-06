@@ -31,6 +31,7 @@ public class ApartmentController {
     @Operation(summary = "保存或更新公寓信息")
     @PostMapping("saveOrUpdate")
     public Result saveOrUpdate(@RequestBody ApartmentSubmitVo apartmentSubmitVo) {
+        // 添加注释进行测试
         service.saveOrUpdateApartment(apartmentSubmitVo);
         return Result.ok();
     }
