@@ -46,3 +46,14 @@ admin:
     path-patterns:
       include: /admin/**
       exclude: /admin/login/**
+
+# 日志配置
+logging:
+  level:
+    root: info
+  file:
+    path: D:/HomeworkPractise2026/shangtingApartmentLog
+#    name: shangtingapartment.log
+  logback:
+    rollingpolicy:
+      max-file-size: 5MB
