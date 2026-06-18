@@ -13,9 +13,12 @@ import com.atguigu.lease.common.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+// 登录认证拦截器
+@Slf4j
 @Component
 public class AuthenticationInterceptor implements HandlerInterceptor {
 
@@ -30,6 +33,8 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             Long userId = claims.get("userId", Long.class);
             String username = claims.get("username", String.class);
             LoginUserContext.setLoginUser(new LoginUser(userId, username));
+            log.info("==> 用户id {}, 用户名称 {}, 请求访问", userId, username);
+            log.info("==> 访问token {}", token);
         }
         return true;
     }
